@@ -1,74 +1,13 @@
 # agy-open
 
-Open a folder in the [Antigravity](https://antigravity.google/) macOS app and start a new conversation, from the terminal.
+From the terminal, open a folder in the [Antigravity](https://antigravity.google/) macOS app and start a new conversation.
 
 ```bash
+pnpm add -g agy-open   # or: npm i -g agy-open
 cd ~/Projects/my-app
-agy-open .
+agy-open               # current directory; or: agy-open /path/to/project
 ```
 
-Requirements: macOS, Node.js 22+, Antigravity at `/Applications/Antigravity.app`.
+Needs macOS, Node.js 22+, and Antigravity at `/Applications/Antigravity.app`.
 
-## Install
-
-```bash
-pnpm add -g agy-open
-# or: npm i -g agy-open
-```
-
-From source:
-
-```bash
-git clone https://github.com/Keyneswu/agy-open.git
-cd agy-open
-pnpm install
-pnpm build
-pnpm add -g .
-```
-
-Optional alias:
-
-```bash
-alias 'agy app'='agy-open'
-```
-
-## Usage
-
-```text
-agy-open [path]
-agy-open --help
-agy-open --version
-```
-
-`path` defaults to the current directory. The directory must already exist.
-
-## How it works
-
-1. Finds or creates `~/.gemini/config/projects/<id>.json` for the folder.
-2. Sets the selected project in `~/Library/Application Support/Antigravity/app_storage.json`. That file is read-modify-written while the app may be running, so a concurrent UI write can be lost.
-3. If Antigravity is running, uses the Chromium DevTools port to open a new conversation. If it is not running, launches the app, waits for that port, then does the same.
-4. Focuses the Antigravity window (`open -a Antigravity`).
-
-This uses undocumented local files and the DevTools debug port. Antigravity updates can break it.
-
-Design: [`docs/superpowers/specs/2026-09-16-agy-open-design.md`](docs/superpowers/specs/2026-09-16-agy-open-design.md).
-
-## Development
-
-```bash
-pnpm install
-pnpm test
-pnpm build
-node dist/cli.js .
-```
-
-## Manual checks
-
-- Quit Antigravity, run `agy-open .` in this repo: app starts, new conversation, this folder selected.
-- With Antigravity already open on another project: run `agy-open .` here; window focuses and a new conversation opens for this folder.
-- Run `agy-open .` a second time: reuses the same project id (no extra JSON file).
-- `agy-open "/path/with spaces/my dir"`: opens that directory.
-
-## License
-
-MIT
+Uses unofficial local config and the DevTools debug port, so Antigravity updates can break it. MIT.
