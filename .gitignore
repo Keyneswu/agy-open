@@ -1,0 +1,39 @@
+# Operating System
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDEs & Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.sublime-project
+*.sublime-workspace
+
+# Environment Variables & Secrets
+.env
+.env*.local
+*.pem
+*.key
+
+# Logs & Temporary Files
+*.log
+*.tmp
+*.bak
+
+# Node.js
+node_modules/
+.pnp
+.pnp.js
+dist/
+build/
+coverage/
+.nyc_output/
+*.tsbuildinfo
+.pnpm-store/
