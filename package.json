@@ -4,6 +4,15 @@
   "description": "Open a folder as an Antigravity project and start a new conversation",
   "type": "module",
   "license": "MIT",
+  "author": "keyneswu",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Keyneswu/agy-open.git"
+  },
+  "homepage": "https://github.com/Keyneswu/agy-open#readme",
+  "bugs": {
+    "url": "https://github.com/Keyneswu/agy-open/issues"
+  },
   "engines": {
     "node": ">=22"
   },
@@ -15,7 +24,8 @@
   ],
   "scripts": {
     "build": "tsc && node --eval \"import { chmodSync } from 'node:fs'; chmodSync('dist/cli.js', 0o755)\"",
-    "test": "tsc && tsc -p tsconfig.test.json && node --test dist-test/test/*.test.js"
+    "test": "tsc && tsc -p tsconfig.test.json && node --test dist-test/test/*.test.js",
+    "prepublishOnly": "pnpm test && pnpm build"
   },
   "devDependencies": {
     "@types/node": "^26.6.0",

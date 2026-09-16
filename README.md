@@ -7,19 +7,24 @@ cd ~/Projects/my-app
 agy-open .
 ```
 
-Requirements: macOS, Node.js 22+, [pnpm](https://pnpm.io/), Antigravity at `/Applications/Antigravity.app`.
+Requirements: macOS, Node.js 22+, Antigravity at `/Applications/Antigravity.app`.
 
 ## Install
 
 ```bash
-git clone <this-repo-url>
+pnpm add -g agy-open
+# or: npm i -g agy-open
+```
+
+From source:
+
+```bash
+git clone https://github.com/Keyneswu/agy-open.git
 cd agy-open
 pnpm install
 pnpm build
 pnpm add -g .
 ```
-
-`pnpm add -g .` registers the `agy-open` bin globally ([pnpm link --global was removed](https://pnpm.io/cli/link)).
 
 Optional alias:
 
