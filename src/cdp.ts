@@ -94,18 +94,18 @@ async function cdpCall(
   id = 1,
 ): Promise<CdpResult> {
   const ws = new WebSocket(webSocketDebuggerUrl);
-  await new Promise<void>((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error("CDP websocket timeout")), 2000);
-    ws.addEventListener("open", () => {
-      clearTimeout(timer);
-      resolve();
-    });
-    ws.addEventListener("error", () => {
-      clearTimeout(timer);
-      reject(new Error("CDP websocket error"));
-    });
-  });
   try {
+    await new Promise<void>((resolve, reject) => {
+      const timer = setTimeout(() => reject(new Error("CDP websocket timeout")), 2000);
+      ws.addEventListener("open", () => {
+        clearTimeout(timer);
+        resolve();
+      });
+      ws.addEventListener("error", () => {
+        clearTimeout(timer);
+        reject(new Error("CDP websocket error"));
+      });
+    });
     const payload = JSON.stringify({ id, method, params });
     const response = await new Promise<CdpResult>((resolve, reject) => {
       const timer = setTimeout(() => reject(new Error("CDP response timeout")), 2000);
