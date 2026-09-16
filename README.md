@@ -40,7 +40,7 @@ agy-open --version
 ## How it works
 
 1. Finds or creates `~/.gemini/config/projects/<id>.json` for the folder.
-2. Sets the selected project in `~/Library/Application Support/Antigravity/app_storage.json`.
+2. Sets the selected project in `~/Library/Application Support/Antigravity/app_storage.json`. That file is read-modify-written while the app may be running, so a concurrent UI write can be lost.
 3. If Antigravity is running, uses the Chromium DevTools port to open a new conversation. If it is not running, launches the app, waits for that port, then does the same.
 4. Focuses the Antigravity window (`open -a Antigravity`).
 

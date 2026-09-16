@@ -28,6 +28,10 @@ export function newConversationUrl(origin: string, projectId: string): string {
   return `${base}/?section=${encodeURIComponent(projectId)}`;
 }
 
+export function urlHasProjectSection(href: string, projectId: string): boolean {
+  return href.includes(`section=${encodeURIComponent(projectId)}`);
+}
+
 
 function sleep(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -110,7 +114,12 @@ async function cdpCall(
     const response = await new Promise<CdpResult>((resolve, reject) => {
       const timer = setTimeout(() => reject(new Error("CDP response timeout")), 2000);
       ws.addEventListener("message", (event) => {
-        const parsed = JSON.parse(String(event.data)) as CdpResult;
+        let parsed: CdpResult;
+        try {
+          parsed = JSON.parse(String(event.data)) as CdpResult;
+        } catch {
+          return;
+        }
         if (parsed.id !== id) {
           return;
         }
@@ -154,6 +163,19 @@ export async function openNewConversation(
     },
     2,
   );
+  const hrefResult = await cdpCall(
+    webSocketDebuggerUrl,
+    "Runtime.evaluate",
+    {
+      expression: "window.location.href",
+      returnByValue: true,
+    },
+    3,
+  );
+  const href = hrefResult.result?.result?.value;
+  if (typeof href !== "string" || !urlHasProjectSection(href, projectId)) {
+    throw new Error("CDP navigation did not land on project section");
+  }
 }
 
 export async function openNewConversationWithRetry(

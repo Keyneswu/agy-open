@@ -124,8 +124,8 @@ export async function main(argv: string[]): Promise<void> {
   }
   let page = await getMainPage(portFile);
   if (!page?.webSocketDebuggerUrl) {
-    focusAntigravity();
     try {
+      focusAntigravity();
       page = await waitForMainPage(portFile);
     } catch {
       throw new CliError(
@@ -151,7 +151,13 @@ export async function main(argv: string[]): Promise<void> {
       `Registered project ${projectId}, but could not open a new conversation. Create one in the app.`,
     );
   }
-  focusAntigravity();
+  try {
+    focusAntigravity();
+  } catch {
+    throw new CliError(
+      `Registered project ${projectId}, but could not open a new conversation. Create one in the app.`,
+    );
+  }
   process.stdout.write(
     `Opened new conversation for ${targetDir} (project ${projectId})\n`,
   );

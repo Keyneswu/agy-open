@@ -7,6 +7,7 @@ import {
   newConversationUrl,
   pickMainPage,
   readCdpPort,
+  urlHasProjectSection,
   type CdpTarget,
 } from "../src/cdp.js";
 
@@ -69,5 +70,34 @@ describe("newConversationUrl", () => {
       newConversationUrl("https://127.0.0.1:1234", "abc def"),
       "https://127.0.0.1:1234/?section=abc%20def",
     );
+  });
+});
+
+describe("urlHasProjectSection", () => {
+  test("matches the section query that newConversationUrl builds", () => {
+    const projectId = "abc def";
+    const href = newConversationUrl("https://127.0.0.1:1234", projectId);
+    assert.equal(urlHasProjectSection(href, projectId), true);
+  });
+
+  test("matches when extra query follows the encoded section", () => {
+    assert.equal(
+      urlHasProjectSection(
+        "https://127.0.0.1:1/?section=abc%20def&x=1",
+        "abc def",
+      ),
+      true,
+    );
+  });
+
+  test("rejects a different project id", () => {
+    assert.equal(
+      urlHasProjectSection("https://127.0.0.1:1/?section=other", "abc def"),
+      false,
+    );
+  });
+
+  test("rejects a missing section", () => {
+    assert.equal(urlHasProjectSection("https://127.0.0.1:1/", "abc"), false);
   });
 });
