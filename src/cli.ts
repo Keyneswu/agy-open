@@ -175,9 +175,18 @@ async function run(): Promise<void> {
   }
 }
 
+function resolveEntryPath(entryPath: string): string {
+  try {
+    return fs.realpathSync(entryPath);
+  } catch {
+    return path.resolve(entryPath);
+  }
+}
+
 const isDirectRun =
   process.argv[1] !== undefined &&
-  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+  resolveEntryPath(process.argv[1]) ===
+    resolveEntryPath(fileURLToPath(import.meta.url));
 
 if (isDirectRun) {
   void run();
