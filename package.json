@@ -1,0 +1,24 @@
+{
+  "name": "agy-open",
+  "version": "0.1.0",
+  "description": "Open a folder as an Antigravity project and start a new conversation",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22"
+  },
+  "bin": {
+    "agy-open": "./dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc && node --eval \"import { chmodSync } from 'node:fs'; chmodSync('dist/cli.js', 0o755)\"",
+    "test": "tsc && tsc -p tsconfig.test.json && node --test dist-test/test/*.test.js"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.0",
+    "typescript": "^7.0.2"
+  }
+}

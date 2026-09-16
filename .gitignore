@@ -38,3 +38,4 @@ coverage/
 *.tsbuildinfo
 .pnpm-store/
 .worktrees/
+dist-test/
